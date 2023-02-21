@@ -12,9 +12,11 @@
     </nav>
 
     <h1>Search Results</h1>
-    <p id="id"></p>
+    <p id="gameConfirmation"></p>
+    <p id="gameID"></p>
     <p id="results"></p>
-    <p id="notFound" style="color: red;"></p>
+    <p id="listPageReminder"></p>
+    <p id="noGameFound" style="color: red;"></p>
 
     <script>
         var queryData = window.location.search;
@@ -22,11 +24,13 @@
         var entries = new URLSearchParams(queryData);
 
         if(entries.get("game") != ""){
-            document.getElementById("results").innerText = "Game has been found. Check game details below."
+            document.getElementById("gameConfirmation").innerText = "Game has been found. Check game details below:";
+            document.getElementById("gameID").innerText = "Game Identifier = " + entries.get("id");
             document.getElementById("results").innerText = "Game Name = " + entries.get("game");
+            document.getElementById("listPageReminder").innerText = "You may go back using the list button above.";
         }
         else{
-            document.getElementById("notFound").innerText = "Game Not Found.";
+            document.getElementById("noGameFound").innerText = "Game Has not been found in the database.";
         }
     </script>
 </body>

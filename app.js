@@ -65,7 +65,6 @@ app.post("/updateGame", function(req, res){
 })
 
 app.post("/searchGames", function(req, res){
-    console.log(req.body.game);
     Game.find({"game":req.body.game}).then(function(game){
         res.redirect("searched.html?id=" + game[0]._id + "&game=" + game[0].game);
     }).catch(function(){
