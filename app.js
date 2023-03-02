@@ -41,8 +41,6 @@ app.get("/saveList", function(req, res){
 })
 
 app.post("/deleteFromList", function(req, res){
-    console.log(`Entry deleted at ${req.body.username}`);
-
     UnityData.findByIdAndDelete(req.body.username).exec();
 })
 
