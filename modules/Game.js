@@ -2,10 +2,21 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var Schema = new Schema({
-    game:{
+    username:{
         type:String,
-        require:true
-    }
+    },
+    firstName:{
+        type:String,
+    },
+    lastName:{
+        type:String,
+    },
+    date:{
+        type:String,
+    },
+    score:{
+        type:Number,
+    },
 });
 
-mongoose.model("game", Schema);
+mongoose.model("unitySave", Schema);

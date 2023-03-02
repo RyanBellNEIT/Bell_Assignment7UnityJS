@@ -19,57 +19,31 @@ mongoose.connect(db.mongoURI,{
 });
 
 require("./modules/Game");
-var Game = mongoose.model("game");
+var UnityData = mongoose.model("unitySave");
 
-//example routes
-app.get("/", function(req, res){
-    res.redirect("gameList.html");
+app.post("/unity", function(req, res){
+    var data = {
+        "username" : req.body.username,
+        "firstName" : req.body.firstName,
+        "lastName" : req.body.lastName,
+        "date" : req.body.date,
+        "score" : req.body.score
+    }
+    console.log(data);
+
+    new UnityData(data).save();
 })
 
-app.get("/poop", function(req, res){
-    res.send("AH PPOOOOP NOOO");
-})
-
-app.post("/saveGame", function(req, res){
-    console.log(req.body);
-
-    new Game(req.body).save().then(function(){
-        //res.send(req.body); 
-        res.redirect("index.html");
-    });
-})
-
-app.get("/getGames", function(req, res){
-    Game.find({}).sort({"game":1}).then(function(game){
-       // console.log({game});
-        res.json({game});
+app.get("/saveList", function(req, res){
+    UnityData.find({}).sort({"username":1}).then(function(data){
+        res.send({data});
     })
 })
 
-app.post("/deleteGame", function(req, res){
-    console.log(`Game Deleted ${req.body.game}`);
-    Game.findByIdAndDelete(req.body.game).exec();
-    res.redirect('gameList.html');
-})
+app.post("/deleteFromList", function(req, res){
+    console.log(`Entry deleted at ${req.body.username}`);
 
-app.get("/getID::id", function(req, res){
-    console.log(req.body.game);
-    res.redirect("updatePage.html?id=" + req.params._id);
-})
-
-app.post("/updateGame", function(req, res){
-    console.log(req.body);
-    Game.findByIdAndUpdate(req.body.id, {game:req.body.game}, function(){
-        res.redirect("gameList.html");
-    })
-})
-
-app.post("/searchGames", function(req, res){
-    Game.find({"game":req.body.game}).then(function(game){
-        res.redirect("searched.html?id=" + game[0]._id + "&game=" + game[0].game);
-    }).catch(function(){
-        res.redirect("searched.html?game=");
-    })
+    UnityData.findByIdAndDelete(req.body.username).exec();
 })
 
 app.use(express.static(__dirname+"/pages"));
