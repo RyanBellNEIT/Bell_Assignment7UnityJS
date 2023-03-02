@@ -41,10 +41,19 @@ app.get("/saveList", function(req, res){
 })
 
 app.post("/deleteFromList", function(req, res){
-    UnityData.findByIdAndDelete(req.body.username).exec();
+    console.log(req.body)
+    UnityData.findByIdAndDelete(req.body.holder).exec();
+})
+
+app.post("/searchFromList", function(req, res){
+    UnityData.find({"username":req.body.holder}).then(function(data){
+        res.send(data);
+        console.log(data);
+    })
 })
 
 app.use(express.static(__dirname+"/pages"));
 app.listen(port, function(){
     console.log(`Running on port ${port}`);
 })
+
